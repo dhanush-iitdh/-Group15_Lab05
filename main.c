@@ -34,8 +34,10 @@ int main() {
        }
    }
 
-void GPIOF_Handler(void)                  /* Interrupt handler for GPIO Port F */
-{
-    GPIO_PORTF_ICR_R |= 0x10;             /* Clear interrupt flag for PF4 */
-    GPIO_PORTF_DATA_R ^= 0x02;            /* Toggle the RED LED (PF1) */
+/* Interrupt handler for GPIO Port F */
+void GPIOF_Handler(void) {
+    if (GPIO_PORTF_RIS_R & 0x10) {           /* Check if the interrupt was caused by PF4 (SW1) */
+        GPIO_PORTF_DATA_R ^= 0x02;           /* Toggle the state of the Red LED (PF1) */
+        GPIO_PORTF_ICR_R |= 0x10;            /* Clear the interrupt flag for PF4 */
+    }
 }
