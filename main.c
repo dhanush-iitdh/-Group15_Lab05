@@ -4,7 +4,7 @@
 
 void GPIOF_Handler(void);
 void GPIO_PORTF_Init(void);
-// Initialize Port F for Switch and LED
+
 void init(void)
 {
    SYSCTL_RCGCGPIO_R |= 0x20;               /* Turn on the clock for Port F */
@@ -21,22 +21,7 @@ void init(void)
     GPIO_PORTF_ICR_R |= 0x10;                /* Clear any prior interrupt */
     GPIO_PORTF_IM_R |= 0x10;                 /* Enable interrupt for PF4 */
 
-<<<<<<< HEAD
-    NVIC_EN0_R |= 0x40000000;                /* Enable the Port F interrupt in the NVIC (Interrupt 30) */
-}
-
-
-int main() {
-       init();                                  /* Initialize GPIO for Port F */
-       GPIO_PORTF_DATA_R = 0x00;                /* Ensure that the LED is off initially */
-
-       while (1) {
-           /* Infinite loop: waiting for interrupts to occur */
-       }
-   }
-
-=======
-    NVIC_EN0_R |= 0x40000000;                /* Enable the Port F interrupt in the NVIC (Interrupt 30) */  
+NVIC_EN0_R |= 0x40000000;                /* Enable the Port F interrupt in the NVIC (Interrupt 30) */  
 }
 int main() {
     init();                                  /* Initialize GPIO for Port F */
@@ -46,8 +31,6 @@ int main() {
     /* Infinite loop: waiting for interrupts to occur */
     }
 }
-
->>>>>>> b2d3f9852876011f36e6a0acfa033be76721232b
 /* Interrupt handler for GPIO Port F */
 void GPIOF_Handler(void) {
     if (GPIO_PORTF_RIS_R & 0x10) {           /* Check if the interrupt was caused by PF4 (SW1) */
