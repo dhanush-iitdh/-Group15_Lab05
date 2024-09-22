@@ -1,11 +1,24 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "tm4c123gh6pm.h"
-
 void GPIOF_Handler(void);
 void GPIO_PORTF_Init(void);
+void init(void)
+{
+   SYSCTL_RCGCGPIO_R |= 0x020;
+              GPIO_PORTF_LOCK_R= 0x4C4F4348;
+              GPIO_PORTF_CR_R |= 0x10;
+              GPIO_PORTF_DIR_R = 0x02;
+              GPIO_PORTF_DEN_R = 0x12;
+              GPIO_PORTF_PUR_R = 0x10;
 
-int main(void)
+
+
+    
+}
+
+
+int main()
 {
     SYSCTL_RCGCGPIO_R |= 0x020;
               GPIO_PORTF_LOCK_R= 0x4C4F4348;
