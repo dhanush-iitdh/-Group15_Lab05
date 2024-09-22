@@ -23,16 +23,14 @@ void init(void)
 
     NVIC_EN0_R |= 0x40000000;                /* Enable the Port F interrupt in the NVIC (Interrupt 30) */  
 }
-
-
 int main() {
-       init();                                  /* Initialize GPIO for Port F */
-       GPIO_PORTF_DATA_R = 0x00;                /* Ensure that the LED is off initially */
-
-       while (1) {
-           /* Infinite loop: waiting for interrupts to occur */
-       }
-   }
+    init();                                  /* Initialize GPIO for Port F */
+    GPIO_PORTF_DATA_R = 0x00;                /* Ensure that the LED is off initially */
+    while (1) 
+    {
+    /* Infinite loop: waiting for interrupts to occur */
+    }
+}
 
 /* Interrupt handler for GPIO Port F */
 void GPIOF_Handler(void) {
