@@ -4,18 +4,24 @@
 
 void GPIOF_Handler(void);
 void GPIO_PORTF_Init(void);
+// Initialize Port F for Switch and LED
 void init(void)
 {
    SYSCTL_RCGCGPIO_R |= 0x20;               /* Turn on the clock for Port F */
     GPIO_PORTF_LOCK_R = 0x4C4F434B;          /* Unlock Port F to make changes */
     GPIO_PORTF_CR_R |= 0x10;                 /* Allow modifications to PF4 (SW1) */
+/* Configure PF1 as output (Red LED), PF4 as input (SW1) */
     GPIO_PORTF_DIR_R = 0x02;                 /* PF1 output, PF4 input */
     GPIO_PORTF_DEN_R = 0x12;                 /* Enable PF1 and PF4 */
     GPIO_PORTF_PUR_R = 0x10;                 /* Enable pull-up resistor for PF4 (SW1) */
+/* Configure interrupt for PF4 (SW1) */
+   GPIO_PORTF_IS_R &= ~0x10;                /* Configure for edge detection */
+    GPIO_PORTF_IBE_R &= ~0x10;               /* Disable detection on both edges */
+    GPIO_PORTF_IEV_R &= ~0x10;               /* Trigger on falling edge (button press) */
+    GPIO_PORTF_ICR_R |= 0x10;                /* Clear any prior interrupt */
+    GPIO_PORTF_IM_R |= 0x10;                 /* Enable interrupt for PF4 */
 
-
-
-    
+    NVIC_EN0_R |= 0x40000000;                /* Enable the Port F interrupt in the NVIC (Interrupt 30) */  
 }
 
 
